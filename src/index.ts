@@ -11,11 +11,16 @@ app.set("port", process.env.PORT || 3000);
 
 app.get("/", async (req: Request, res: Response) => {
     const query = req.query.manga as string ?? "";
-    
-    const results = await readm.getSearchResults({
-        title: query,
-        parameters: {},
-    }, {});
+    let results;
+
+    try {
+        results = await readm.getSearchResults({
+            title: query,
+            parameters: {},
+        }, {});
+    } catch (e) {
+        results = { "results": [] };
+    }
 
     res.json(results);
 });
