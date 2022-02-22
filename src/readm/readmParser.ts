@@ -114,10 +114,7 @@ export const parseChapters = async ($: CheerioAPI, mangaId: string): Promise<Cha
 
     for (const chapter of $('div.season_start').toArray()) {
         const promise = new Promise<void>((resolve, _) => {
-            setTimeout(() => {
-                resolve(parseChapter(chapter));
-
-            }, 100);
+            resolve(parseChapter(chapter));
         });
 
         promises.push(promise);
