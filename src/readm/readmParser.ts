@@ -83,7 +83,7 @@ export const parseMangaDetails = ($: CheerioAPI, mangaId: string): Manga => {
 export const parseChapters = async ($: CheerioAPI, mangaId: string): Promise<Chapter[]> => {
     const chapters: Chapter[] = []
 
-    function parseChapter(chapter: any): void  {
+    for (const chapter of $('div.season_start').toArray()) {
         const title: string = $('h6.truncate', chapter).first().text().trim() ?? ''
         const rawChapterId: string = $('a', chapter).attr('href') ?? ''
 
@@ -107,20 +107,8 @@ export const parseChapters = async ($: CheerioAPI, mangaId: string): Promise<Cha
             langCode: LanguageCode.ENGLISH,
             chapNum: isNaN(chapNum) ? 0 : chapNum,
             time: date.toString(),
-        }))
+        }));
     }
-
-    const promises: Promise<void>[] = [];
-
-    for (const chapter of $('div.season_start').toArray()) {
-        const promise = new Promise<void>((resolve, _) => {
-            resolve(parseChapter(chapter));
-        });
-
-        promises.push(promise);
-    }
-
-    await Promise.all(promises);
 
     return chapters
 }
