@@ -1,7 +1,6 @@
 import { Readm } from './readm/readm';
 import express, { Application, Request, Response } from "express";
 import cheerio from "cheerio"
-import ipify from 'ipify';
 
 const app: Application = express();
 app.use(express.json());
@@ -23,8 +22,6 @@ app.get("/", async (req: Request, res: Response) => {
     } catch (e) {
         results = { "results": [] };
     }
-console.log("IP", await ipify({useIPv6: false}));
-
     res.setHeader('Cache-Control', `s-maxage=${secondsInDay}`);
     res.json(results);
 });
