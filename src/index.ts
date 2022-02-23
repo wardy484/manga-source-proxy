@@ -1,6 +1,7 @@
 import { Readm } from './readm/readm';
 import express, { Application, Request, Response } from "express";
 import cheerio from "cheerio"
+import publicIp from 'public-ip';
 
 const app: Application = express();
 app.use(express.json());
@@ -22,6 +23,8 @@ app.get("/", async (req: Request, res: Response) => {
     } catch (e) {
         results = { "results": [] };
     }
+
+console.log(await publicIp.v4());
 
     res.setHeader('Cache-Control', `s-maxage=${secondsInDay}`);
     res.json(results);
