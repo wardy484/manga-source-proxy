@@ -6,6 +6,7 @@ const app: Application = express();
 app.use(express.json());
 
 const readm: Readm = new Readm(cheerio);
+const secondsInDay = 86400;
 
 app.set("port", process.env.PORT || 3000);
 
@@ -22,6 +23,7 @@ app.get("/", async (req: Request, res: Response) => {
         results = { "results": [] };
     }
 
+    res.setHeader('Cache-Control', `s-maxage=${secondsInDay}`);
     res.json(results);
 });
 
@@ -30,7 +32,7 @@ app.get("/manga/:mangaId/chapters/:chapterId", async (req: Request, res: Respons
     const chapterId = req.params.chapterId;
 
     const results = await readm.getChapterDetails(mangaId, chapterId);
-
+    res.setHeader('Cache-Control', `s-maxage=${secondsInDay * 7}`);
     res.json(results);
 });
 
@@ -40,6 +42,7 @@ app.get("/manga/:mangaId/chapters", async (req: Request, res: Response) => {
     
     const results = await readm.getChapters(query);
 
+    res.setHeader('Cache-Control', `s-maxage=${60 * 10}`);
     res.json(results);
 });
 
@@ -47,7 +50,8 @@ app.get("/manga/:mangaId", async (req: Request, res: Response) => {
     const query = req.params.mangaId;
     
     const results = await readm.getMangaDetails(query);
-
+    
+    res.setHeader('Cache-Control', `s-maxage=${secondsInDay * 7}`);
     res.json(results);
 });
 
