@@ -137,7 +137,7 @@ export class Readm extends Source {
         return results;
     }
 
-    async getHomePageSections(sectionCallback: () => void): Promise<HomeSection[]> {
+    async getHomePageSections(): Promise<HomeSection[]> {
         const request = this.createRequestObject({
             url: RM_DOMAIN,
             method: 'GET',

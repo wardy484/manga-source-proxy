@@ -63,8 +63,12 @@ app.post("/updated-manga", async (req: Request, res: Response) => {
     res.json(results);
 });
 
-
-
+app.get("/home", async (req: Request, res: Response) => {    
+    const results = await readm.getHomePageSections();
+    
+    res.setHeader('Cache-Control', `s-maxage=${secondsInDay * 1}`);
+    res.json(results);
+});
 
 app.listen(app.get("port"), () => {
   console.log(`Server on http://localhost:${app.get("port")}/`);
