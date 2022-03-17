@@ -171,7 +171,8 @@ export const parseUpdatedManga = ($: CheerioAPI, time: Date, ids: string[]): Upd
     }
 }
 
-export const parseHomeSections = ($: CheerioAPI, sectionCallback: (section: HomeSection) => void): void => {
+export const parseHomeSections = ($: CheerioAPI): HomeSection[] => {
+    const sections: HomeSection[] = [];
     const hotUpdateSection = createHomeSection({ id: 'hot_update', title: 'Hot Manga Updates' })
     const popularMangaSection = createHomeSection({ id: 'popular_manga', title: 'Popular Manga', view_more: true })
     const latestUpdateSection = createHomeSection({ id: 'latest_updates', title: 'Latest Updates', view_more: true })
@@ -203,7 +204,7 @@ export const parseHomeSections = ($: CheerioAPI, sectionCallback: (section: Home
     }
 
     hotUpdateSection.items = hotMangaUpdate
-    sectionCallback(hotUpdateSection)
+    sections.push(hotUpdateSection);
 
     //Popular Mango
     const popularManga: MangaTile[] = []
@@ -224,7 +225,7 @@ export const parseHomeSections = ($: CheerioAPI, sectionCallback: (section: Home
         }))
     }
     popularMangaSection.items = popularManga
-    sectionCallback(popularMangaSection)
+    sections.push(popularMangaSection);
 
     //Latest Mango
     const latestManga: MangaTile[] = []
@@ -246,7 +247,7 @@ export const parseHomeSections = ($: CheerioAPI, sectionCallback: (section: Home
         }))
     }
     latestUpdateSection.items = latestManga
-    sectionCallback(latestUpdateSection)
+    sections.push(latestUpdateSection);
 
     //New Mango
     const newManga: MangaTile[] = []
@@ -265,7 +266,9 @@ export const parseHomeSections = ($: CheerioAPI, sectionCallback: (section: Home
         }))
     }
     newMangaSection.items = newManga
-    sectionCallback(newMangaSection)
+    sections.push(newMangaSection);
+
+    return sections;
 }
 
 export const parseViewMore = ($: CheerioAPI, homepageSectionId: string): MangaTile[] => {

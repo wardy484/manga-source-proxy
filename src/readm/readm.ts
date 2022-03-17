@@ -137,7 +137,7 @@ export class Readm extends Source {
         return results;
     }
 
-    async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
+    async getHomePageSections(sectionCallback: () => void): Promise<HomeSection[]> {
         const request = this.createRequestObject({
             url: RM_DOMAIN,
             method: 'GET',
@@ -145,7 +145,7 @@ export class Readm extends Source {
 
         const response = await this.requestManager.schedule(request, 1)
         const $ = this.cheerio.load(response.data)
-        parseHomeSections($, sectionCallback)
+        return parseHomeSections($);
     }
 
     async getViewMoreItems(homepageSectionId: string, metadata: any): Promise<PagedResults> {
