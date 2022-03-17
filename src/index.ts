@@ -70,6 +70,16 @@ app.get("/home", async (req: Request, res: Response) => {
     res.json(results);
 });
 
+app.get("/home/:sectionId", async (req: Request, res: Response) => {   
+    const id = req.params.mangaId;
+
+    const results = await readm.getViewMoreItems(id, {});
+    
+    res.setHeader('Cache-Control', `s-maxage=${secondsInDay * 1}`);
+    res.json(results);
+});
+
+
 app.listen(app.get("port"), () => {
   console.log(`Server on http://localhost:${app.get("port")}/`);
 });
