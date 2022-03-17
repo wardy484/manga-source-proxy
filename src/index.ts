@@ -71,7 +71,7 @@ app.get("/home", async (req: Request, res: Response) => {
 });
 
 app.get("/home/:sectionId", async (req: Request, res: Response) => {   
-    const id = req.params.mangaId;
+    const id = req.params.sectionId;
 
     const results = await readm.getViewMoreItems(id, {});
     
