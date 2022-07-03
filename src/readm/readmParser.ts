@@ -87,7 +87,7 @@ export const parseChapters = async ($: CheerioAPI, mangaId: string): Promise<Cha
         const title: string = $('h6.truncate', chapter).first().text().trim() ?? ''
         const rawChapterId: string = $('a', chapter).attr('href') ?? ''
 
-        const chapRegex = rawChapterId.match(/\/manga\/[A-z0-9]+\/(.*?)\//)
+        const chapRegex = rawChapterId.match(/\/manga\/(?:.*)\/(.+)\//);
         let chapterId = null
         if (chapRegex && chapRegex[1]) chapterId = chapRegex[1]
         if (!chapterId) return
